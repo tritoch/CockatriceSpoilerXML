@@ -142,11 +142,8 @@ def make_json(cards):
     }
 
     for card in cards:
-        #card['colorIdentityArray'] = []
         for cid in card['color']:
             card['colorIdentityArray'].append(cid)
-        #card['colorArray'] = []
-        #colornames = ['White','Blue','Black','Red','Green']
         if 'W' in card['color']:
             card['colorArray'].append('White')
         if 'U' in card['color']:
@@ -160,7 +157,6 @@ def make_json(cards):
         cardpower = ''
         cardtoughness = ''
         if len(card['pow'].split('/')) > 1:
-            #print len(card['pow'].split('/'))
             cardpower = card['pow'].split('/')[0]
             cardtoughness = card['pow'].split('/')[1]
         cardnames = []
@@ -186,8 +182,6 @@ def make_json(cards):
             card['cmc'] = 0
         cardjson = {}
         cardjson["cmc"] = card['cmc']
-        #cardjson["colorIdentity"] = card['colorIdentityArray']
-        #cardjson["colors"] = card['colorArray'],
         cardjson["manaCost"] = card['cost']
         cardjson["name"] = card['name']
         cardjson["number"] = cardnumber
@@ -206,35 +200,12 @@ def make_json(cards):
         if cardpower or cardpower == '0':
             cardjson["power"] = cardpower
             cardjson["toughness"] = cardtoughness
-        #if len(cardtypes) > 1:
-        #    cardjson["types"] = cardtypes
         if card.has_key('loyalty'):
             cardjson["loyalty"] = card['loyalty']
         if card.has_key('layout'):
             cardjson["layout"] = card['layout']
 
         cardsjson['cards'].append(cardjson)
-        #    {
-        #        "cmc": card['cmc'],
-        #        "colorIdentity": card['colorIdentityArray'],
-        #        "colors": card['colorArray'],
-        #        "loyalty": card['loyalty'],
-        #        "manacost": card['cost'],
-        #        "name": card['name'],
-        #        "names": cardnames,
-        #        "number": cardnumber,
-        #        "rarity": card['rarity'],
-        #        "power": cardpower,
-        #        "text": card['rules'],
-        #        #if len(card['pow'].split('/'):
-        #        "toughness": cardtoughness,
-        #        "type": card['type'],
-        #        "types": cardtypes,
-        #        "url": card['img']
-        #    }
-        #optional fields
-        #cardsjson['cards'][]
-        #)
 
     with open('EMN.json', 'w') as outfile:
         json.dump(cardsjson, outfile, sort_keys=True, indent=2, separators=(',', ': '))
@@ -273,26 +244,6 @@ def make_xml(cards):
     <cards>
     """
     for card in cards:
-      #try:
-        # figure out cmc from cost
-        #if 'cost' in card and len(card['cost']) > 0:
-        #    m = re.search('(\d+)', card['cost'])
-        #    cmc = 0
-        #    if m:
-        #        cmc += int(m.group())
-        #        cmc += len(card['cost']) - 1 # account for colored symbols
-        #    else:
-        #        cmc += len(card['cost']) # all colored symbols
-        #    card['cmc'] = cmc
-        ## figure out color
-        #for c in 'WUBRG' :
-        #    if c in card['cost']:
-        #        card['color'] += c
-
-         #       card['colorIdentity'] += c
-         #   if (c + '}') in card['rules']:
-         #       if not (c in card['colorIdentity']):
-         #           card['colorIdentity'] += c
         print """
 <card>
     <name>{name}</name>
@@ -307,9 +258,6 @@ def make_xml(cards):
     <text>{rules}</text>
 </card>
         """.format(**card)
-      #except Exception as e:
-      #    print card
-      #    raise
 
     print """</cards>
     </cockatrice_carddatabase>
@@ -319,5 +267,5 @@ if __name__ == '__main__':
     cards = get_cards()
     add_images(cards)
     prep_xml(cards)
-    #make_xml(cards)
+    make_xml(cards)
     make_json(cards)
