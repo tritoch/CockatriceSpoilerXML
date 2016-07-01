@@ -102,8 +102,8 @@ def add_images(cards):
             if match2:
                 c['img'] = match2.group(0).replace(' src="','http://mythicspoiler.com/').replace('">','')
             else:
-                print('image for {} not found'.format(c['name']))
-                print('we checked mythic for ' + c['altname'])
+                #print('image for {} not found'.format(c['name']))
+                #print('we checked mythic for ' + c['altname'])
                 pass
 
 def make_json(cards):
